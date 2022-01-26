@@ -15,5 +15,6 @@ Analog Discovery
 
 Signal Generator and O-Scope
 
-# Post Processing Resources
+# Signal Processing Resources
+The iOS App used to record the Smartfoam measurements saves the data to a .csv file. This file can be evaluated with your choice of software. We do provide some basic python scripts to help visualize and post process the data. There is some data lost while 
 
