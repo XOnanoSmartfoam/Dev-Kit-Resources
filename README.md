@@ -9,7 +9,7 @@ A user's guide for the XO-NANO microcontroller and its accompanying iOS app can 
 # XO-Nano Pressure
 There are several ways you can measure pressure with the XO-NANO Pressure sensors. See "Pressure Sensor Instructions.docx" for instructions for setting up an XO-NANO pressure sensor. Below are tools (you only need to purchase one of the tools) that could be used to interface with the XO-NANO pressure sensor in the development kit.
 
-Arduino
+Arduino Uno
 
 https://store-usa.arduino.cc/collections/boards/products/arduino-uno-rev3-smd
 
