@@ -12,6 +12,7 @@ There are several ways you can measure pressure with the XO-NANO Pressure sensor
 Arduino
 
 Analog Discovery
+You can find one for purchase at https://digilent.com/shop/analog-discovery-2-100ms-s-usb-oscilloscope-logic-analyzer-and-variable-power-supply/
 
 Signal Generator and O-Scope
 
