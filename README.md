@@ -19,5 +19,4 @@ Signal Generator and O-Scope
 This app is currently under development and is limited to invited testers. Please email jake.sundet@xonano.com for access to the TestFlight version of the app. As soon as we work through the bugs we will release it to the App Store.
 
 # Signal Processing Resources
-The iOS App used to record the Smartfoam measurements saves the data to a .csv file. This file can be evaluated with your choice of software. We do provide some basic python scripts to help visualize and post process the data. There is some data lost while 
-
+The iOS App used to record the Smartfoam measurements saves the data to a .csv file. This file can be evaluated with your choice of software. The DevKit Visualization Script.py file found in this repository can be used to filter and plot the data from the Smartfoam and IMU.
