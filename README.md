@@ -20,7 +20,9 @@ https://digilent.com/shop/analog-discovery-2-100ms-s-usb-oscilloscope-logic-anal
 Signal Generator and O-Scope
 
 https://www.digikey.com/en/products/detail/b-k-precision/4010A/301869
+
 https://www.tek.com/en/products/oscilloscopes/tbs1000
+
 
 # XO-NANO DevKit iOS App
 This app is currently under development and is limited to invited testers. Please email jake.sundet@xonano.com for access to the TestFlight version of the app. As soon as we work through the bugs we will release it to the App Store.
