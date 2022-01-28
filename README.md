@@ -10,14 +10,15 @@ A user's guide for the XO-NANO microcontroller and its accompanying iOS app can 
 There are several ways you can measure pressure with the XO-NANO Pressure sensors. See "Pressure Sensor Instructions.docx" for instructions for setting up an XO-NANO pressure sensor. Below are tools (you only need to purchase one of the tools) that could be used to interface with the XO-NANO pressure sensor in the development kit.
 
 Arduino
-link: https://store-usa.arduino.cc/collections/boards/products/arduino-uno-rev3-smd
+
+https://store-usa.arduino.cc/collections/boards/products/arduino-uno-rev3-smd
 
 Analog Discovery
-link: https://digilent.com/shop/analog-discovery-2-100ms-s-usb-oscilloscope-logic-analyzer-and-variable-power-supply/
+https://digilent.com/shop/analog-discovery-2-100ms-s-usb-oscilloscope-logic-analyzer-and-variable-power-supply/
 
 Signal Generator and O-Scope
-link: https://www.digikey.com/en/products/detail/b-k-precision/4010A/301869
-link: https://www.tek.com/en/products/oscilloscopes/tbs1000
+https://www.digikey.com/en/products/detail/b-k-precision/4010A/301869
+https://www.tek.com/en/products/oscilloscopes/tbs1000
 
 # XO-NANO DevKit iOS App
 This app is currently under development and is limited to invited testers. Please email jake.sundet@xonano.com for access to the TestFlight version of the app. As soon as we work through the bugs we will release it to the App Store.
