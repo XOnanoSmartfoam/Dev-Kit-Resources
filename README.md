@@ -14,9 +14,11 @@ Arduino
 https://store-usa.arduino.cc/collections/boards/products/arduino-uno-rev3-smd
 
 Analog Discovery
+
 https://digilent.com/shop/analog-discovery-2-100ms-s-usb-oscilloscope-logic-analyzer-and-variable-power-supply/
 
 Signal Generator and O-Scope
+
 https://www.digikey.com/en/products/detail/b-k-precision/4010A/301869
 https://www.tek.com/en/products/oscilloscopes/tbs1000
 
