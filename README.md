@@ -7,12 +7,13 @@ The primary way to measure XO-NANO impact foam is by using the XO-NANO microcont
 A user's guide for the XO-NANO microcontroller and its accompanying iOS app can be found in the XO-NANO Smartfoam Development Kit User Guide
 
 # XO-Nano Pressure
-There are several ways you can measure pressure with the XO-NANO Pressure sensors. 
+There are several ways you can measure pressure with the XO-NANO Pressure sensors. See "Pressure Sensor Instructions.docx" for instructions for setting up an XO-NANO pressure sensor. Below are tools (you only need to purchase one of the tools) that could be used to interface with the XO-NANO prsesure sensor in the development kit.
 
 Arduino
+https://store-usa.arduino.cc/collections/boards/products/arduino-uno-rev3-smd
 
 Analog Discovery
-You can find one for purchase at https://digilent.com/shop/analog-discovery-2-100ms-s-usb-oscilloscope-logic-analyzer-and-variable-power-supply/
+https://digilent.com/shop/analog-discovery-2-100ms-s-usb-oscilloscope-logic-analyzer-and-variable-power-supply/
 
 Signal Generator and O-Scope
 
