@@ -36,8 +36,8 @@ float cutoffFreq = 1.0;  //Hz.
 float sampPeriod = 0.093;  //s. This number is from the timestamp of the Arduino IDE Serial Monitor tool.
 //From Calibration
 float sensorSurfaceArea = ; //square inches
-float VrmsKnownLoad = ;
 float knownLoad = ; //lb
+float VrmsKnownLoad = ;
 float VrmsZero = ;
 /****** End User Inputs Section ******/
 
