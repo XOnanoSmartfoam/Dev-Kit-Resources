@@ -35,14 +35,10 @@ int highPressureRMSThresh = 575;
 float cutoffFreq = 1.0;  //Hz.
 float sampPeriod = 0.093;  //s. This number is from the timestamp of the Arduino IDE Serial Monitor tool.
 //From Calibration
-float sensorSurfaceArea = 1.0; //square inches
-//float VrmsKnownLoad = 268.04; //2x2 sensor with scuff
-//float VrmsKnownLoad = 519.99; //2x2 sensor, no scuff
-float VrmsKnownLoad = 534.40; //1x1 sensor
-float knownLoad = 6.12; //lb
-//float VrmsZero = 549.04; //2x2 sensor with scuff
-//float VrmsZero = 565.15; //2x2 sensor, no scuff
-float VrmsZero = 612.42; //1x1 sensor
+float sensorSurfaceArea = ; //square inches
+float VrmsKnownLoad = ;
+float knownLoad = ; //lb
+float VrmsZero = ;
 /****** End User Inputs Section ******/
 
 
