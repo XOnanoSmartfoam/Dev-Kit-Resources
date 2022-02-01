@@ -35,9 +35,9 @@ float sampPeriod = 0.093;  //s. This number is from the timestamp of the Arduino
 
 /* Initialize Variables */
 float sensorValue = 0;
-float Vrms = 0;
-float Vrmsd_1 = 0; // "d_1 stands for delayed 1.
-float Vrmsf = 0;   // "f" stands for filtered.
+float Vrms = 500; // Start these values at 500 to start the system close to where steady state is.
+float Vrmsd_1 = 500; // "d_1 stands for delayed 1.
+float Vrmsf = 500;   // "f" stands for filtered.
 
 
 void setup() {
