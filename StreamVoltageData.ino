@@ -15,7 +15,7 @@ will light.
 This code is designed for an Arduino Uno.
 
 For the connection diagram between an Arduino Uno and an XO-NANO pressure
-sensor, see "User Guide.docx" in Dev-Kit-Resources.
+sensor, see the Dev-Kit-Resources.
 */
 
 /****** User Inputs Section ******/
@@ -35,33 +35,35 @@ float sampPeriod = 0.093;  //s. This number is from the timestamp of the Arduino
 
 /* Initialize Variables */
 float sensorValue = 0;
-float Vrms = 500; // Start these values at 500 to start the system close to where steady state is.
-float Vrmsd_1 = 500; // "d_1 stands for delayed 1.
-float Vrmsf = 500;   // "f" stands for filtered.
+float Vrms = 0;
+float Vrmsd_1 = 0;
+float Vrmsf = 500;   // "f" stands for filtered. Initialize this high to decrease filter warm up time.
 
 
-void setup() {
+void setup() {float Vrmsd_1 = 0; // "d_1 stands for delayed 1.
+
   Serial.begin(9600); // Set Baud rate.
   int PWMPin = 9;
   analogWrite(PWMPin, 127); //50% Duty Cycle.
   pinMode(lowPressureLED, OUTPUT);
   pinMode(highPressureLED, OUTPUT);
+  Vrmsd_1 = calculate_Vrms();
 }
 
 
 float calculate_Vrms()
 {
-  Vrms = 0;
+  float V = 0;
   for (int i = 0; i < VrmsSampleLimit; i++)
   {
     sensorValue =  analogRead(sensorPin);
-    Vrms = Vrms + sensorValue*sensorValue;    
+    V = V + sensorValue*sensorValue;    
   }
 
-  Vrms = Vrms/VrmsSampleLimit;
-  Vrms = sqrt(Vrms);
+  V = V/VrmsSampleLimit;
+  V = sqrt(V);
 
-  return Vrms;
+  return V;
 }
 
 void LED_check(float Vrms)
