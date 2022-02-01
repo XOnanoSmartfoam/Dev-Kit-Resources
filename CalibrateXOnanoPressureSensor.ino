@@ -31,8 +31,8 @@ int sensorPin = A0;
 float VrmsSampleLimit = 500;
 float cutoffFreq = 1.0;  //Hz.
 float sampPeriod = 0.093;  //s. This number is from the timestamp of the Arduino IDE Serial Monitor tool.
-float knownLoad = 6.12; //lb
-float sensorSurfaceArea = 1.0; //square inches
+float knownLoad = ; //lb
+float sensorSurfaceArea = ; //square inches
 /****** End User Inputs Section ******/
 
 
