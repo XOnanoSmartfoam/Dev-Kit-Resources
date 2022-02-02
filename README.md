@@ -25,7 +25,7 @@ https://www.tek.com/en/products/oscilloscopes/tbs1000
 
 
 # XO-NANO DevKit iOS App
-This app is currently under development and is limited to invited testers. Please email jake.sundet@xonano.com for access to the TestFlight version of the app. As soon as we work through the bugs we will release it to the App Store.
+This app is in Beta release and you can join the beta program by following this link on your iOS device. https://testflight.apple.com/join/mG4E2b9c This app is completely local to your iOS device and will not upload any data to a cloud service.
 
 # Signal Processing Resources
 The iOS App used to record the Smartfoam measurements saves the data to a .csv file. This file can be evaluated with your choice of software. The DevKit Visualization Script.py file found in this repository can be used to filter and plot the data from the Smartfoam and IMU.
