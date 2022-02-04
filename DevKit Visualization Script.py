@@ -187,11 +187,11 @@ for d, name in enumerate(All_data):
     # Filter Data
     columns = All_data[name].columns.values.tolist()
     columns = columns[0:-2]
-    Filt_data['butter ' + name] = pd.DataFrame()
+    Filt_data[name] = pd.DataFrame()
     for i, col in enumerate(columns):
         
         # Butterworth
-        Filt_data['butter '+ name]['butter '+col] = butter_lowpass(All_data[name][col], highcut, fs, order)
+        Filt_data[name][col] = butter_lowpass(All_data[name][col], highcut, fs, order)
         
 
 
@@ -217,8 +217,15 @@ if plot:
         
         # Plot the accelerometer data
         axs[1].set_title('IMU')
-        axs[1].plot(time,Filt_data[name].iloc[:,6:12])
-        axs[1].set_ylabel('Acceleration (g\'s)')
+        axs[1].plot(time,Filt_data[name].iloc[:,6:9])
+        axs[1].set_ylabel('Acceleration (m/s)')
         axs[1].set_xlabel('Time (sec)')
-        axs[1].legend(Filt_data[name].columns[6:12])
+        axs[1].legend(Filt_data[name].columns[6:9],loc='upper left')
+        axG = axs[1].twinx()        
+        axG.plot(time,Filt_data[name].iloc[:,9],'C6')
+        axG.plot(time,Filt_data[name].iloc[:,10],'C7')
+        axG.plot(time,Filt_data[name].iloc[:,11],'C8')
+        axG.set_ylabel('Acceleration (deg/s)')
+        axG.legend(Filt_data[name].columns[9:12],loc='upper right')
+        
         plt.tight_layout()
