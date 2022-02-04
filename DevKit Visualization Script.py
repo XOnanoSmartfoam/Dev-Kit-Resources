@@ -65,7 +65,7 @@ def confirm(message):
 
 # Select the file to be evaluated
 file_names = pick_file('Select the files for analysis')
-columns = ['V_0', 'V_1', 'V_2', 'V_3', 'V_4', 'V_5', 'A_X', 'A_Y', 'A_Z', 'G_X', 'G_Y', 'G_Z', 'M_X', 'M_Y', 'M_Z','Count ADC','Count IMU']
+
 All_data = {}
 for i, file in enumerate(file_names):
     reader = csv.reader(open(file))
@@ -77,6 +77,7 @@ for i, file in enumerate(file_names):
         temp_cols.append(temp_list[l][0])
         temp_list[l] = temp_list[l][1:-1]
         temp_list[l] = [float(i) for i in temp_list[l]]
+                   
         
     # Find starting indecies in counts
     adc10 = temp_list[15][:100]
@@ -169,7 +170,7 @@ for i, file in enumerate(file_names):
                 
     # Move all data to a DataFrame for processing        
     Data = pd.DataFrame(n_Data).T
-    Data.columns = columns
+    Data.columns = temp_cols
     All_data[file.split('/')[-1].split('.')[0]] = Data
         
 #%% Post process the data
