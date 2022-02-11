@@ -37,8 +37,8 @@ float sampPeriod = 0.093;  //s. This number is from the timestamp of the Arduino
 //From Calibration
 float sensorSurfaceArea = ; //square inches
 float knownLoad = ; //lb
-float VrmsKnownLoad = ;
 float VrmsZero = ;
+float VrmsKnownLoad = ;
 //Quick Recalibrate Variable
 float quickRecalibratePressure = 0; //psi. If what should be zero pressure reads a different number on the Serial Monitor, input that number here.
 /****** End User Inputs Section ******/
