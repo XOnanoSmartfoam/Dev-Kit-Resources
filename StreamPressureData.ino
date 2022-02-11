@@ -39,6 +39,8 @@ float sensorSurfaceArea = ; //square inches
 float knownLoad = ; //lb
 float VrmsKnownLoad = ;
 float VrmsZero = ;
+//Quick Recalibrate Variable
+float quickRecalibratePressure = 0; //psi. If what should be zero pressure reads a different number on the Serial Monitor, input that number here.
 /****** End User Inputs Section ******/
 
 
@@ -92,7 +94,7 @@ float lpf(float fc, float Ts, float y, float yd_1, float yfd_1) // fc is cutoff 
 
 float convert_to_pressure(float V)
 {
-  return ((V-VrmsZero)*m);
+  return ((V-VrmsZero)*m - quickRecalibratePressure);
 }
 
 
