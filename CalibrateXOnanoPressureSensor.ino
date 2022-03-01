@@ -77,15 +77,24 @@ void check_for_known_pressure(float F)
 
 void record_ADC_output_known_pressure(float F)
 {
-  int filterWarmUp = 400;
+  int filterWarmUp = 210;
+  int averageAmount = 10;
+  float VrmsAvg = 0;
+
   for( int i = 0; i < filterWarmUp; i++)
   {
     Vrms = calculate_Vrms();
     Vrmsf = lpf(cutoffFreq, sampPeriod, Vrms, Vrmsd_1, Vrmsf);
     //update the delayed terms.
     Vrmsd_1 = Vrms;
+    
+    if(i>filterWarmUp-averageAmount)
+    {
+      VrmsAvg = VrmsAvg + Vrms;
+    }
   }
-  VrmsSS = Vrms;
+  
+  VrmsSS = VrmsAvg/(averageAmount-1);
   if (F == 0.0)
   {
     Serial.print("VrmsZero = ");
