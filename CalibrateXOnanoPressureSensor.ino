@@ -108,13 +108,13 @@ void record_ADC_output_known_pressure(float F)
 
 void calibrate_sensor()
 {
-  check_for_known_pressure(0.0);
-  Serial.println("Wait while the sensor is calibrated.");
-  record_ADC_output_known_pressure(0.0);
-  
   check_for_known_pressure(knownLoad);
   Serial.println("Wait while the sensor is calibrated.");
   record_ADC_output_known_pressure(knownLoad);
+  
+  check_for_known_pressure(0.0);
+  Serial.println("Wait while the sensor is calibrated.");
+  record_ADC_output_known_pressure(0.0);
   
   Serial.println("Done. Enter the values for knownLoad, sensorSurfaceArea, VrmsZero, and VrmsKnownLoad into StreamPressureData.ino");
 }
