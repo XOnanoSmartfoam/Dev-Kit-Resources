@@ -1,20 +1,37 @@
 /***********************************************************************************
-  Max Tree
   XO-NANO Smartfoam
-  March 22, 2022
+  Max Tree
+  May 11, 2022
   
-  This program uses an ESP32 Feather to read in voltages for eight different XO_NANO
-  pressure sensors, calculate each root-mean-square voltage (Vrms), and then notify
-  a service with a 32byte package (conatining every Vrms) via BLE constantly. The
-  code is based on BLE_uart.ino example for ESP32 BLE Arduino. The ESP32 Feather
-  with this code is named on line of this code that is:
-  "BLEDevice::init("Pressure Sense");:
+  This program uses an ESP32 Feather to send pressure values of an XO-NANO pressure
+  map to the XOnanoPressure app. The app is programmed to recognize the UUID and
+  device name given in this code. This code is based on BLE_uart.ino example for
+  ESP32 BLE Arduino.
 ************************************************************************************/
-
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
 #include <BLE2902.h>
+
+#define numOfBLEPackets 32
+#define numOfPacketsPerADCPin 4
+#define numOfADCs 8
+
+#define SERVICE_UUID           "6E400001-B5A3-F393-E0A9-E50E24DCCA9E" // UART service UUID
+#define CHARACTERISTIC_UUID_RX "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
+#define CHARACTERISTIC_UUID_TX "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
+#define ON_BOARD_LED 13
+/*************************************
+User Specific Edit Section
+*************************************/
+
+float p[numOfADCs] {0.83,1.45,1.34,1.4,
+                    1.35,1.23,1.3,0.93}; // pressure calibration scalers. Replace these numbers with your specific calibration scalers.
+
+/*************************************
+End of User Specific Edit Section
+*************************************/
+
 
 //BLE variables
 BLEServer *pServer = NULL;
@@ -22,54 +39,43 @@ BLECharacteristic * pTxCharacteristic;
 bool deviceConnected = false;
 bool oldDeviceConnected = false;
 
-#define numOfBLEPackets 32
-#define numOfPacketsPerADCPin 4
-uint8_t txValue[numOfBLEPackets]  =  {0,0,0,0,
-                                      0,0,0,0,
-                                      0,0,0,0,
-                                      0,0,0,0,
-                                      0,0,0,0,
-                                      0,0,0,0,
-                                      0,0,0,0,
-                                      0,0,0,0};
+uint8_t txValue[numOfBLEPackets] {0,0,0,0,
+                                  0,0,0,0,
+                                  0,0,0,0,
+                                  0,0,0,0,
+                                  0,0,0,0,
+                                  0,0,0,0,
+                                  0,0,0,0,
+                                  0,0,0,0};
 
 // ADC pin definitions
 const int batteryLevelPin {A13};
-const int adcPin[8] {A2, A3, A4, A5, A6, A7, A8, A9}; // The order of the adcs listed here determines the order of the BLE Vrms outputs.
+const int adcPin[numOfADCs] {A2, A3, A4, A5, A6, A7, A8, A9}; // The order of the adcs listed here determines the order of the BLE Vrms outputs.
 
 // setting PWM properties
-const int ledPin = 26; // 32 corresponds to GPIO16. (PWM)
-const int freq = 1000;
-const int ledChannel = 0;
-const int resolution = 1;
+const int ledPin {26}; // 32 corresponds to GPIO16. (PWM)
+const int freq {1000};
+const int ledChannel {0};
+const int resolution {1};
 
 //placeholder Variables
-int adc = 100; // placeholder voltage
-float Vrms = 0;
-float batteryLevel = 0.0;
-float batteryLevelInitial = 0.0;
-float VrmsSampleLimit = 500;
-const int avgSize = 5;
-float vHistory[8][avgSize];
-int vHIndex = 0;
+int adc {100}; // placeholder voltage
+float Vrms {0.0};
+float batteryLevel {0.0};
+float batteryLevelInitial {0.0};
+float VrmsSampleLimit {500};
+const int avgSize {5};
+float vHistory[numOfADCs][avgSize];
+int vHIndex {0};
+float deltaV ={0.0};
+float pressure = 0.0;
 
-float deltaV = 0.0;
-float fudgeFactor = 1.112;
-
-//Feather and Pad Specific Specifications
-float c[8] {1,1,1,1,
-            1,1,1,1};  
-
-
-// See the following for generating UUIDs:
-// https://www.uuidgenerator.net/
-
-#define SERVICE_UUID           "6E400001-B5A3-F393-E0A9-E50E24DCCA9E" // UART service UUID
-//#define CHARACTERISTIC_UUID_RX "832b68cc-c342-11ec-9d64-0242ac120002"
-//#define CHARACTERISTIC_UUID_TX "beb5483e-36e1-4688-b7f5-ea07361b26a8"
-#define CHARACTERISTIC_UUID_RX "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
-#define CHARACTERISTIC_UUID_TX "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
-#define ON_BOARD_LED 13
+//General Calibration Values
+float batteryCalibrationFactor {1.112};
+float a = 4.27*0.0001;
+float b = -2.03;
+float c[numOfADCs] {1,1,1,1,
+            1,1,1,1}; // bringing all sensors to the same origin
 
 
 class MyServerCallbacks: public BLEServerCallbacks
@@ -85,12 +91,17 @@ class MyServerCallbacks: public BLEServerCallbacks
     }
 };
 
-void encode_Vrms(int index)
-{  
-  txValue[index] = Vrms/1000;
-  txValue[index + 1] = (Vrms-(txValue[index]*1000))/100;
-  txValue[index + 2] = (Vrms-(txValue[index]*1000)-txValue[index + 1]*100)/10;
-  txValue[index + 3] = (Vrms-(txValue[index]*1000)-txValue[index + 1]*100-txValue[index + 2]*10)/1;
+void encode_pressure(int index)
+{ 
+  if (pressure < 0)
+  {
+    pressure = 0.0; 
+  }
+  
+  txValue[index] = pressure/100;
+  txValue[index + 1] = (pressure-(txValue[index]*100))/10;
+  txValue[index + 2] = (pressure-(txValue[index]*100)-txValue[index + 1]*10)/1;
+  txValue[index + 3] = (pressure-(txValue[index]*100)-txValue[index + 1]*10-txValue[index + 2]*1)/0.1;
 }
 
 float Vrms_calculation(int pin)
@@ -135,12 +146,16 @@ void update_voltages()
   account_for_battery_level();
   for(int i = 0; i < numOfBLEPackets/numOfPacketsPerADCPin; i++)
   {
-    vHistory[i][vHIndex] = Vrms_calculation(adcPin[i])*c[i];
+    vHistory[i][vHIndex] = Vrms_calculation(adcPin[i]); //*c[i]
     Vrms = calc_history_avg(i); // for moving average
     Vrms = Vrms + deltaV;//battery level calc
-//    Vrms = Vrms*c[i];//individual calibration fudge factors
-    encode_Vrms(i*numOfPacketsPerADCPin);
+    //convert to pressure
+    //This calibratrion was performed with a 2"x2" platen
+    pressure = p[i]*(a*Vrms*Vrms + b*Vrms + c[i])/(2*2);
+    
+    encode_pressure(i*numOfPacketsPerADCPin);
   }
+
   if (vHIndex < avgSize-1)
   {
     vHIndex++;
@@ -153,23 +168,34 @@ void update_voltages()
 
 void calculate_battery_level()
 {
-  batteryLevel = (analogRead(batteryLevelPin)/4095.0)*2.0*3.3*fudgeFactor;
+  batteryLevel = (analogRead(batteryLevelPin)/4095.0)*2.0*3.3*batteryCalibrationFactor;
 }
 
 void fill_voltage_history()
 {
   for (int i = 0; i < avgSize; i++)
   {
-    for (int j = 0; j < 8; j++)
+    for (int j = 0; j < numOfADCs; j++)
     {
-      vHistory[j][i] = Vrms_calculation(adcPin[j])*c[j];
+      vHistory[j][i] = Vrms_calculation(adcPin[j]);
     }
   }
 }
 
-void setup() {
-  Serial.begin(115200);
-  
+
+void calc_c()
+{
+  for (int i = 0; i < numOfADCs; i++)
+  {  
+    c[i] = -a*calc_history_avg(i)*calc_history_avg(i) - b*calc_history_avg(i);
+  }
+  // ADD specific pressure bed lines of code here for fine tuning.
+   c[6] = c[6] - 1.3; //specific to board 002
+   c[4] = c[4] - 0.3; //specific to board 002
+}
+
+void initialize_BLE()
+{  
   // Create the BLE Device
   BLEDevice::init("Pressure Sense 8 Pads");
 
@@ -195,48 +221,52 @@ void setup() {
   // Start advertising
   pServer->getAdvertising()->start();
   Serial.println("Waiting a client connection to notify...");
+}
 
-  // configure LED PWM functionalitites
+void setup() {
+  Serial.begin(115200);
+  initialize_BLE();
+
+  // configure LED PWM
   ledcSetup(ledChannel, freq, 8);
-
-  // attach the channel to the GPIO to be controlled
   ledcAttachPin(ledPin, ledChannel);
-
   ledcWrite(ledChannel, 127);
 
   calculate_battery_level();
   batteryLevelInitial = batteryLevel;
 
+  //Turn On System Power Indicator LED
   pinMode(ON_BOARD_LED, OUTPUT);
   digitalWrite(13, HIGH); // power on
 
   fill_voltage_history();
+  calc_c(); // get all calibration equations to the same starting point.
 }
 
 void loop()
 {      
-    if (deviceConnected)
-    {
-      calculate_battery_level();
-      update_voltages();
-      //BLE communication
-      pTxCharacteristic->setValue(&txValue[0], numOfBLEPackets); // The first number must be unit8_t and the second is the size of the information being sent.
-      pTxCharacteristic->notify();
-    }
+  if (deviceConnected)
+  {
+    calculate_battery_level();
+    update_voltages();
+    //BLE communication
+    pTxCharacteristic->setValue(&txValue[0], numOfBLEPackets); // The first number must be unit8_t and the second is the size of the information being sent.
+    pTxCharacteristic->notify();
+  }
 
     // disconnecting
-    if (!deviceConnected && oldDeviceConnected)
-    {
-        delay(500); // give the bluetooth stack the chance to get things ready
-        Serial.println("Connection Lost.");
-        pServer->startAdvertising(); // restart advertising
-        Serial.println("start advertising");
-        oldDeviceConnected = deviceConnected;
-    }
+  if (!deviceConnected && oldDeviceConnected)
+  {
+      delay(500); // give the bluetooth stack the chance to get things ready
+      Serial.println("Connection Lost.");
+      pServer->startAdvertising(); // restart advertising
+      Serial.println("start advertising");
+      oldDeviceConnected = deviceConnected;
+  }
     // connecting
-    if (deviceConnected && !oldDeviceConnected)
-    {
-    // do stuff here on connecting
-        oldDeviceConnected = deviceConnected;
-    }
+  if (deviceConnected && !oldDeviceConnected)
+  {
+  // do stuff here on connecting
+      oldDeviceConnected = deviceConnected;
+  }
 }
