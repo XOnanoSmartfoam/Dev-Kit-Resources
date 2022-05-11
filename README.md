@@ -7,7 +7,7 @@ The primary way to measure XO-NANO impact foam is by using the XO-NANO microcont
 A user's guide for the XO-NANO microcontroller and its accompanying iOS app can be found in the XO-NANO Smartfoam Development Kit User Guide
 
 # XO-Nano Pressure
-There are several ways you can measure pressure with the XO-NANO Pressure sensors. See "Pressure Sensor Instructions.docx" for instructions for setting up an XO-NANO pressure sensor. Below are tools (you only need to purchase one of the tools) that could be used to interface with the XO-NANO pressure sensor in the development kit.
+There are several ways you can measure pressure with the XO-NANO Pressure sensors. See the Single Sensor Demonstration folder for "Pressure Sensor Instructions.docx" which walks through the set up of an XO-NANO pressure sensor. Below are tools (you only need to purchase one of the tools) that could be used to interface with the XO-NANO pressure sensor in the development kit. For the ESP32 Feather powered pressure map demo (Pressure Map Demo Folder), no purchase other than the demonstration itself is necessary.
 
 Arduino Uno
 
