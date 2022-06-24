@@ -10,8 +10,8 @@ onto your microcontroller.
 This code is designed using an Arduino Uno.
 
 For the connection diagram between an Arduino Uno and an XO-NANO pressure
-sensor, see https://github.com/XOnanoSmartfoam/Dev-Kit-Resources.
-
+sensor, see Pressure Sensor Instructions.docx at
+https://github.com/XOnanoSmartfoam/Dev-Kit-Resources/blob/main/Single%20Sensor%20Pressure%20Demonstration/CalibrateXOnanoPressureSensor.ino
 
 INSTRUCTIONS
 1. Find a flat object to distribute weight of known weights
