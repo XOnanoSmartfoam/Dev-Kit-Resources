@@ -15,7 +15,8 @@ will light.
 This code is designed for an Arduino Uno.
 
 For the connection diagram between an Arduino Uno and an XO-NANO pressure
-sensor, see the Dev-Kit-Resources.
+sensor, see Pressure Sensor Instructions.docx at
+https://github.com/XOnanoSmartfoam/Dev-Kit-Resources/blob/main/Single%20Sensor%20Pressure%20Demonstration/CalibrateXOnanoPressureSensor.ino
 */
 
 /****** User Inputs Section ******/
