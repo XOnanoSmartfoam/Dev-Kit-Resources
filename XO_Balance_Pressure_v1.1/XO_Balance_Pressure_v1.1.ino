@@ -1,7 +1,7 @@
 /***********************************************************************************
 XO-NANO Smartfoam
 Max Tree
-May 26, 2022
+Sept 7, 2022
 
 This program uses an ESP32 Feather to send load values of an XO-NANO pressure
 map to the XOnanoPressure app. The app is programmed to recognize the UUID and
