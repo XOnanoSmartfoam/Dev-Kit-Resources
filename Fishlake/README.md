@@ -1,0 +1,2 @@
+# Fishlake
+Fishlake mini version 1 is used to collect dynamic and static data. Using the iOS application found here https://testflight.apple.com/join/MpLxyleo the user can start logging data to flash, stream data, save data to iOS device, and end tests. If logging to the Fishlake mini hardware, the FishlakePullandPlot.exe file can be used to pull the data from saved flash memory, and plot adc, imu, mag, and temp data.
