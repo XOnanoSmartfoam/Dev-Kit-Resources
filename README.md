@@ -29,3 +29,6 @@ This app is in Beta release and you can join the beta program by following this 
 
 # Signal Processing Resources
 The iOS App used to record the Smartfoam measurements saves the data to a .csv file. This file can be evaluated with your choice of software. The DevKit Visualization Script.py file found in this repository can be used to filter and plot the data from the Smartfoam and IMU.
+
+# Fishlake
+Fishlake mini version 1 is used to collect dynamic and static data. Using the iOS application found here https://testflight.apple.com/join/MpLxyleo the user can start logging data to flash, stream data, save data to iOS device, and end tests. If logging to the Fishlake mini hardware, the FishlakePullandPlot.exe file can be used to pull the data from saved flash memory, and plot adc, imu, mag, and temp data.
