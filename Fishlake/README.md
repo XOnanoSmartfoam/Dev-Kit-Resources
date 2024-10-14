@@ -3,6 +3,7 @@ Fishlake mini version 1 is used to collect dynamic and static data. Using the iO
 
 
 XO-Sole User Manual
+
 Introduction
 This is a step-by-step guide for XO-NANO’s XO-Sole (Smartfoam enabled 3D force measurement insole). All components of the XO-Sole are built into the insole itself. The components within the insole include:
 1.	XO-NANO BLE Microcontroller and battery – charged by plugging in the USB-c port to a power source and turning the XO-Sole switch to “ON”.
